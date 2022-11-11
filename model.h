@@ -12,7 +12,7 @@ using namespace std;
 class Model
 {
 public:
-	virtual void init(double dt_seconds) = 0;
+	virtual void init() = 0;
 	virtual void update(double dt_seconds) = 0;
 };
 
@@ -20,5 +20,14 @@ public:
 class PropulsionModel : Model
 {
 public:
+	virtual void init() override;
+	virtual void update(double dt_seconds) override;
+};
 
+
+class HeatTransferModel : Model
+{
+public:
+	virtual void init() override;
+	virtual void update(double dt_seconds) override;
 };
