@@ -1,33 +1,55 @@
 // C++ std libraries
 
-#include <eigen/Eigen/Dense>
+#include <Eigen/Dense>
 #include <iostream>
 #include <string>
+#include <memory>
 
 #include "entity.h"
 
 using namespace std;
 
-
+// Abstract base class; don't modify
 class Model
 {
+private:
+	shared_ptr<Entity> en;
+
 public:
+	Model(shared_ptr<Entity> _en)
+	{
+		en = _en;
+	}
 	virtual void init() = 0;
 	virtual void update(double dt_seconds) = 0;
 };
 
 
-class PropulsionModel : Model
+class PropulsionModel : public Model
 {
 public:
-	virtual void init() override;
-	virtual void update(double dt_seconds) override;
+	PropulsionModel(shared_ptr<Entity> _en) : Model(_en) {};
+	virtual void init() override
+	{
+
+	};
+	virtual void update(double dt_seconds) override
+	{
+		cout << "PropulsionModel dt: " << dt_seconds << endl;
+	};
 };
 
 
-class HeatTransferModel : Model
+class HeatTransferModel : public Model
 {
 public:
-	virtual void init() override;
-	virtual void update(double dt_seconds) override;
+	HeatTransferModel(shared_ptr<Entity> _en) : Model(_en) {};
+	virtual void init() override
+	{
+
+	};
+	virtual void update(double dt_seconds) override
+	{
+		cout << "HeatTransferModel dt: " << dt_seconds << endl;
+	};
 };

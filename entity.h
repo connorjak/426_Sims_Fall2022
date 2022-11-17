@@ -1,6 +1,6 @@
 // C++ std libraries
 
-#include <eigen/Eigen/Dense>
+#include <Eigen/Dense>
 #include <iostream>
 #include <string>
 #include <mutex>
@@ -23,14 +23,38 @@ private:
 	// xyz rad/second (direction is axis, magnitude is rate)
 	Vector3d AngVelocity = { 0,0,0 };
 public:
-	Vector3d GetLocation();
-	Quaterniond GetRotation();
-	Vector3d GetVelocity();
-	Vector3d GetAngVelocity();
+	Vector3d GetLocation()
+	{
+		return Location;
+	};
+	Quaterniond GetRotation()
+	{
+		return Rotation;
+	};
+	Vector3d GetVelocity()
+	{
+		return Velocity;
+	};
+	Vector3d GetAngVelocity()
+	{
+		return AngVelocity;
+	};
 };
 
 
 class LanderEntity : public Entity
+{
+public:
+
+};
+
+class MoonEntity : public Entity
+{
+public:
+
+};
+
+class RoverEntity : public Entity
 {
 public:
 
