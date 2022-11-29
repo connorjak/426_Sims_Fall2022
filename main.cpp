@@ -12,6 +12,9 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+	std::cout << "Starting program." << std::endl;
+
+
 	vector<shared_ptr<Entity>> entities;
 
 	auto moon = make_shared<MoonEntity>();
@@ -29,8 +32,8 @@ int main(int argc, char* argv[])
 	models.push_back(new PropulsionModel(lander));
 	models.push_back(new HeatTransferModel(lander));
 
-	double simLength = 100; //seconds
-	double updateFreq = 50; //Hz
+	double simLength = 50; //seconds
+	double updateFreq = 25; //Hz
 
 	// Probably don't modify past here.
 	for (auto model : models)

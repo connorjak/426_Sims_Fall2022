@@ -27,32 +27,61 @@ public:
 
 class PropulsionModel : public Model
 {
+	// Constants
+	/*Single Engine specs*/
+	double Isp;
+	double g0;
+	double maxthrust;
+	double nmaxengines;
+	double minthrottling;
+	double maxmdot;
+
+	/*HLS specs*/
+	double oxidizerfullmass;
+	double fuelfullmass;
+	double mixtureratio;
+	double propellantfullmass;
+	double HLSfullmass;
+	double HLSemptymass;
+
+	// Variables that really should be on the entity but aren't yet
+	double remainingfuel;
+	double remainingoxidizer;
+
+
 public:
 	PropulsionModel(shared_ptr<Entity> _en) : Model(_en) {};
 	virtual void init() override
 	{
+		// Constants
 		/*Single Engine specs*/
-		double Isp = 363;
-		double g0 = 9.80665;
-		double maxthrust = 606994;
-		double nmaxengines = 8;
-		double minthrottling = 0.40;
-		double maxmdot = 1 / (Isp * g0 / maxthrust);
+		Isp = 363;
+		g0 = 9.80665;
+		maxthrust = 606994;
+		nmaxengines = 8;
+		minthrottling = 0.40;
+		maxmdot = 1 / (Isp * g0 / maxthrust);
 
 
 		/*HLS specs*/
-		double oxidizerfullmass = 92550.4;
-		double fuelfullmass = 26104.0;
-		double mixtureratio = oxidizerfullmass / fuelfullmass;
-		double propellantfullmass = oxidizerfullmass + fuelfullmass;
-		double HLSfullmass = 166429.00;
-		double HLSemptymass = HLSfullmass - (propellantfullmass);
+		oxidizerfullmass = 92550.4;
+		fuelfullmass = 26104.0;
+		mixtureratio = oxidizerfullmass / fuelfullmass;
+		propellantfullmass = oxidizerfullmass + fuelfullmass;
+		HLSfullmass = 166429.00;
+		HLSemptymass = HLSfullmass - (propellantfullmass);
 
 		/*remainingfuel = input('Input remaining fuel mass') This line is used to input remaining fuel mass prior to firing*/
-		double remainingfuel = fuelfullmass;
+		remainingfuel = fuelfullmass;
 
 		/*remainingoxidizer = input('Input remaining oxidizer mass')  This line is used to input remaining oxidizer mass prior to firing*/
-		double remainingoxidizer = oxidizerfullmass;
+		remainingoxidizer = oxidizerfullmass;
+
+
+	};
+	virtual void update(double dt_seconds) override
+	{
+		//cout << "PropulsionModel dt: " << dt_seconds << endl;
 
 		double remainingpropellant = remainingfuel + remainingoxidizer;
 
@@ -72,7 +101,7 @@ public:
 		double fuelmdot = (propellantmdot / (mixtureratio + 1));
 
 		/*firingtime = input('Input length of firing time')*/
-		double firingtime = 10;
+		double firingtime = dt_seconds;
 
 		//Connor: Looks like the rocket equation
 		double deltav = (-1 * Thrust * log((HLSremainingmass - (propellantmdot * firingtime))) / propellantmdot) + (Thrust * log(HLSremainingmass) / propellantmdot);
@@ -84,13 +113,10 @@ public:
 		remainingfuel = remainingfuel - (fuelmdot * firingtime);
 
 
-		cout << "remainingpropellant: " << remainingpropellant << endl;
+		cout << "---------------------------------------------------" << endl;
+		//cout << "remainingpropellant: " << remainingpropellant << endl;
 		cout << "remainingoxidizer: " << remainingoxidizer << endl;
 		cout << "remainingfuel: " << remainingfuel << endl;
-	};
-	virtual void update(double dt_seconds) override
-	{
-		//cout << "PropulsionModel dt: " << dt_seconds << endl;
 	};
 };
 
