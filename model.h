@@ -61,7 +61,7 @@ public:
 		maxthrust = 606994;
 		nmaxengines = 8;
 		minthrottling = 0.40;
-		maxmdot = 1 / (Isp * g0 / maxthrust);
+		maxmdot = 1.0 / (Isp * g0 / maxthrust);
 
 
 		/*HLS specs*/
@@ -98,14 +98,14 @@ public:
 		double Thrust = (nengines * maxthrust) * throttlelevel;
 		double propellantmdot = maxmdot * nengines * throttlelevel;
 
-		double oxmdot = (propellantmdot / (mixtureratio + 1)) * mixtureratio;
-		double fuelmdot = (propellantmdot / (mixtureratio + 1));
+		double oxmdot = (propellantmdot / (mixtureratio + 1.0)) * mixtureratio;
+		double fuelmdot = (propellantmdot / (mixtureratio + 1.0));
 
 		/*firingtime = input('Input length of firing time')*/
 		double firingtime = dt_seconds;
 
 		//Connor: Might be some odd integration method for computing delta V (could use momentum calculations and not require logs?)
-		double deltav = (-1 * Thrust * log((HLSremainingmass - (propellantmdot * firingtime))) / propellantmdot) + (Thrust * log(HLSremainingmass) / propellantmdot);
+		double deltav = (-1.0 * Thrust * log((HLSremainingmass - (propellantmdot * firingtime))) / propellantmdot) + (Thrust * log(HLSremainingmass) / propellantmdot);
 
 		//Connor: simplified modification of velocity
 		auto vel = en->GetVelocity();
