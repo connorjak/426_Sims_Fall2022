@@ -12,7 +12,8 @@ using namespace std;
 // Abstract base class; don't modify
 class Model
 {
-private:
+//private:
+public:
 	shared_ptr<Entity> en;
 
 public:
@@ -103,8 +104,13 @@ public:
 		/*firingtime = input('Input length of firing time')*/
 		double firingtime = dt_seconds;
 
-		//Connor: Looks like the rocket equation
+		//Connor: Might be some odd integration method for computing delta V (could use momentum calculations and not require logs?)
 		double deltav = (-1 * Thrust * log((HLSremainingmass - (propellantmdot * firingtime))) / propellantmdot) + (Thrust * log(HLSremainingmass) / propellantmdot);
+
+		//Connor: simplified modification of velocity
+		auto vel = en->GetVelocity();
+		vel.x() += deltav;
+		en->SetVelocity(vel);
 
 		remainingpropellant = remainingpropellant - (propellantmdot * firingtime);
 
@@ -117,6 +123,8 @@ public:
 		//cout << "remainingpropellant: " << remainingpropellant << endl;
 		cout << "remainingoxidizer: " << remainingoxidizer << endl;
 		cout << "remainingfuel: " << remainingfuel << endl;
+		cout << "deltav: " << deltav << endl;
+		cout << "velocity: " << vel.x() << endl;
 	};
 };
 

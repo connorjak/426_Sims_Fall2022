@@ -35,6 +35,10 @@ public:
 	{
 		return Velocity;
 	};
+	void SetVelocity(Vector3d vel)
+	{
+		Velocity = vel;
+	};
 	Vector3d GetAngVelocity()
 	{
 		return AngVelocity;
